@@ -135,7 +135,7 @@ flutter run
 
 | Member | Student ID | Responsibility |
 |---|---|---|
-| **Turan Asgarli** *(Step 1 coordinator)* | 36689 | Backend: questionnaire and matching algorithm |
+| **Turan Asgarli** | 36689 | Backend: questionnaire and matching algorithm |
 | **Murad Mammadov** | 36688 | Frontend: screens, navigation and UI |
 | **Bassam Khoja** | 36035 | Backend: sign-up, profiles and security |
 | **Mustafa Arda Terzi** | 35266 | Backend: roommate requests, chat and notifications |
