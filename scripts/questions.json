@@ -1,0 +1,1093 @@
+{
+  "version": 1,
+  "sections": [
+    {
+      "id": "sleep",
+      "title": "Sleep schedule",
+      "order": 1
+    },
+    {
+      "id": "cleanliness",
+      "title": "Cleanliness",
+      "order": 2
+    },
+    {
+      "id": "noise",
+      "title": "Noise",
+      "order": 3
+    },
+    {
+      "id": "guests",
+      "title": "Guests",
+      "order": 4
+    },
+    {
+      "id": "study",
+      "title": "Studying in the room",
+      "order": 5
+    },
+    {
+      "id": "sharing",
+      "title": "Sharing",
+      "order": 6
+    },
+    {
+      "id": "social",
+      "title": "Social life",
+      "order": 7
+    },
+    {
+      "id": "temperature",
+      "title": "Temperature & air",
+      "order": 8
+    },
+    {
+      "id": "dealbreakers",
+      "title": "Dealbreakers",
+      "order": 9
+    }
+  ],
+  "questions": [
+    {
+      "id": "sleep_1",
+      "section": "sleep",
+      "order": 1,
+      "trait": "sleep",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "On a typical weekday during the semester, what time do you usually fall asleep?",
+      "options": [
+        {
+          "label": "Before 23:00",
+          "value": 1
+        },
+        {
+          "label": "23:00–00:00",
+          "value": 2
+        },
+        {
+          "label": "00:00–01:00",
+          "value": 3
+        },
+        {
+          "label": "01:00–02:00",
+          "value": 4
+        },
+        {
+          "label": "After 02:00",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "sleep_2",
+      "section": "sleep",
+      "order": 2,
+      "trait": "sleep",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "On a day with no morning class, what time do you usually get out of bed?",
+      "options": [
+        {
+          "label": "Before 08:00",
+          "value": 1
+        },
+        {
+          "label": "08:00–09:00",
+          "value": 2
+        },
+        {
+          "label": "09:00–10:30",
+          "value": 3
+        },
+        {
+          "label": "10:30–12:00",
+          "value": 4
+        },
+        {
+          "label": "After 12:00",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "sleep_3",
+      "section": "sleep",
+      "order": 3,
+      "trait": "sleep",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "It's 00:30 on a weeknight and nothing is due tomorrow. What are you most likely doing?",
+      "options": [
+        {
+          "label": "Watching, gaming or chatting, with a while to go before sleep",
+          "value": 4
+        },
+        {
+          "label": "Asleep for a while already",
+          "value": 1
+        },
+        {
+          "label": "In bed on my phone or reading, about to sleep",
+          "value": 3
+        },
+        {
+          "label": "Just falling asleep",
+          "value": 2
+        },
+        {
+          "label": "Hours to go; this is my most awake time",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "clean_1",
+      "section": "cleanliness",
+      "order": 1,
+      "trait": "cleanliness",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "After you eat or drink in your room, how long do dishes, cups or packaging usually stay out?",
+      "options": [
+        {
+          "label": "I clear them right away",
+          "value": 1
+        },
+        {
+          "label": "Later the same day",
+          "value": 2
+        },
+        {
+          "label": "1–2 days",
+          "value": 3
+        },
+        {
+          "label": "Until I need them again",
+          "value": 4
+        },
+        {
+          "label": "Until there is a pile worth dealing with",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "clean_2",
+      "section": "cleanliness",
+      "order": 2,
+      "trait": "cleanliness",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "Picture your room at home on an average day (not just after cleaning). Which is closest?",
+      "options": [
+        {
+          "label": "Things on most surfaces; I clean when space runs out",
+          "value": 5
+        },
+        {
+          "label": "Clothes and items around most of the week",
+          "value": 4
+        },
+        {
+          "label": "Some things out; I tidy about once a week",
+          "value": 3
+        },
+        {
+          "label": "A few items out, quickly tidied",
+          "value": 2
+        },
+        {
+          "label": "Everything has a place and stays there",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "clean_3",
+      "section": "cleanliness",
+      "order": 3,
+      "trait": "cleanliness",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "Your roommate's side has clothes on the chair and a few cups on the desk for most of the week. How do you feel?",
+      "options": [
+        {
+          "label": "It would really bother me",
+          "value": 1
+        },
+        {
+          "label": "I'd ask them about it within a day or two",
+          "value": 2
+        },
+        {
+          "label": "Slightly bothered; I'd mention it eventually",
+          "value": 3
+        },
+        {
+          "label": "I'd barely notice",
+          "value": 4
+        },
+        {
+          "label": "Doesn't matter to me at all",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "clean_4",
+      "section": "cleanliness",
+      "order": 4,
+      "trait": "cleanliness",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "For shared areas (floor between beds, bathroom sink), what is the most you could live with?",
+      "options": [
+        {
+          "label": "Clean at all times",
+          "value": 1
+        },
+        {
+          "label": "Cleaned within a day",
+          "value": 2
+        },
+        {
+          "label": "Cleaned every few days",
+          "value": 3
+        },
+        {
+          "label": "Cleaned about weekly",
+          "value": 4
+        },
+        {
+          "label": "Cleaned when someone gets to it",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "noise_1",
+      "section": "noise",
+      "order": 1,
+      "trait": "noise",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "When you watch videos, listen to music or take calls in your room, how often do you use headphones?",
+      "options": [
+        {
+          "label": "Always",
+          "value": 1
+        },
+        {
+          "label": "Almost always",
+          "value": 2
+        },
+        {
+          "label": "About half the time",
+          "value": 3
+        },
+        {
+          "label": "Rarely",
+          "value": 4
+        },
+        {
+          "label": "Never; I prefer speakers",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "noise_2",
+      "section": "noise",
+      "order": 2,
+      "trait": "noise",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How often do you take phone or video calls in your room after 23:00?",
+      "options": [
+        {
+          "label": "Almost every night",
+          "value": 5
+        },
+        {
+          "label": "3–5 nights a week",
+          "value": 4
+        },
+        {
+          "label": "1–2 nights a week",
+          "value": 3
+        },
+        {
+          "label": "Less than once a week",
+          "value": 2
+        },
+        {
+          "label": "Never",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "noise_3",
+      "section": "noise",
+      "order": 3,
+      "trait": "noise",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How easily do sounds like typing, a door closing or whispering wake you up?",
+      "options": [
+        {
+          "label": "They wake me almost every time",
+          "value": 1
+        },
+        {
+          "label": "Often",
+          "value": 2
+        },
+        {
+          "label": "Sometimes",
+          "value": 3
+        },
+        {
+          "label": "Rarely",
+          "value": 4
+        },
+        {
+          "label": "I sleep through almost anything",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "noise_4",
+      "section": "noise",
+      "order": 4,
+      "trait": "noise",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "You're studying and your roommate is on a normal-volume call across the room. What happens?",
+      "options": [
+        {
+          "label": "I can't focus; I'd leave or ask them to stop",
+          "value": 1
+        },
+        {
+          "label": "Headphones on, but still distracted",
+          "value": 2
+        },
+        {
+          "label": "Headphones on and I'm fine",
+          "value": 3
+        },
+        {
+          "label": "I barely notice",
+          "value": 4
+        },
+        {
+          "label": "It doesn't affect me at all",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "guests_1",
+      "section": "guests",
+      "order": 1,
+      "trait": "guests",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "In a typical week, how many times would you have friends over in your room?",
+      "options": [
+        {
+          "label": "Never",
+          "value": 1
+        },
+        {
+          "label": "Once or less",
+          "value": 2
+        },
+        {
+          "label": "2–3 times",
+          "value": 3
+        },
+        {
+          "label": "4–5 times",
+          "value": 4
+        },
+        {
+          "label": "Almost every day",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "guests_2",
+      "section": "guests",
+      "order": 2,
+      "trait": "guests",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "Where do you usually spend time with friends?",
+      "options": [
+        {
+          "label": "My room is usually the hangout spot",
+          "value": 5
+        },
+        {
+          "label": "Mostly in my room",
+          "value": 4
+        },
+        {
+          "label": "About equally in my room and elsewhere",
+          "value": 3
+        },
+        {
+          "label": "Mostly elsewhere, sometimes my room",
+          "value": 2
+        },
+        {
+          "label": "Almost always outside (cafés, campus, their rooms)",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "guests_3",
+      "section": "guests",
+      "order": 3,
+      "trait": "guests",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "You come back at 21:00 and your roommate has 3 friends over, chatting. How do you feel?",
+      "options": [
+        {
+          "label": "Uncomfortable; I'd want the room back soon",
+          "value": 1
+        },
+        {
+          "label": "OK once in a while, not as a habit",
+          "value": 2
+        },
+        {
+          "label": "Fine if it's not every day",
+          "value": 3
+        },
+        {
+          "label": "I'd say hi and carry on",
+          "value": 4
+        },
+        {
+          "label": "I'd probably join in",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "guests_4",
+      "section": "guests",
+      "order": 4,
+      "trait": "guests",
+      "direction": "tolerance",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How much notice would you want before your roommate has someone over?",
+      "options": [
+        {
+          "label": "Ask me each time; I can say no",
+          "value": 1
+        },
+        {
+          "label": "A message a few hours before",
+          "value": 2
+        },
+        {
+          "label": "A quick text before they arrive",
+          "value": 3
+        },
+        {
+          "label": "Only for late evenings",
+          "value": 4
+        },
+        {
+          "label": "No notice needed",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "study_1",
+      "section": "study",
+      "order": 1,
+      "trait": "study",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "During exam weeks, where do you do most of your studying?",
+      "options": [
+        {
+          "label": "Library or study rooms, almost always",
+          "value": 1
+        },
+        {
+          "label": "Mostly outside the room",
+          "value": 2
+        },
+        {
+          "label": "About half and half",
+          "value": 3
+        },
+        {
+          "label": "Mostly in the room",
+          "value": 4
+        },
+        {
+          "label": "In the room, almost always",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "study_2",
+      "section": "study",
+      "order": 2,
+      "trait": "study",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "On a regular weekday evening, how many hours do you spend working at your desk in your room?",
+      "options": [
+        {
+          "label": "None",
+          "value": 1
+        },
+        {
+          "label": "Under 1 hour",
+          "value": 2
+        },
+        {
+          "label": "1–2 hours",
+          "value": 3
+        },
+        {
+          "label": "2–4 hours",
+          "value": 4
+        },
+        {
+          "label": "More than 4 hours",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "study_3",
+      "section": "study",
+      "order": 3,
+      "trait": "study",
+      "direction": "self",
+      "type": "forced",
+      "weight": 0.75,
+      "active": true,
+      "optional": false,
+      "text": "Pick the one that fits you better.",
+      "options": [
+        {
+          "label": "My room is where I get work done",
+          "value": 5
+        },
+        {
+          "label": "My room is where I switch off; I work somewhere else",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "share_1",
+      "section": "sharing",
+      "order": 1,
+      "trait": "sharing",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "Your roommate runs out of shampoo and uses some of yours without asking. How do you feel?",
+      "options": [
+        {
+          "label": "Not OK; I'd want them to ask first",
+          "value": 1
+        },
+        {
+          "label": "A bit annoyed, but I'd let it go once",
+          "value": 2
+        },
+        {
+          "label": "Fine if they tell me afterwards",
+          "value": 3
+        },
+        {
+          "label": "Fine, small things are shared",
+          "value": 4
+        },
+        {
+          "label": "Totally fine; what's mine is theirs",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "share_2",
+      "section": "sharing",
+      "order": 2,
+      "trait": "sharing",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How do you usually handle food and snacks when living with others?",
+      "options": [
+        {
+          "label": "Whatever is in the fridge is for everyone",
+          "value": 5
+        },
+        {
+          "label": "Most things shared",
+          "value": 4
+        },
+        {
+          "label": "Snacks shared, meals separate",
+          "value": 3
+        },
+        {
+          "label": "Mostly separate; I offer sometimes",
+          "value": 2
+        },
+        {
+          "label": "Everything separate",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "share_3",
+      "section": "sharing",
+      "order": 3,
+      "trait": "sharing",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "For things you both use (cleaning supplies, toilet paper, a kettle), what would you prefer?",
+      "options": [
+        {
+          "label": "Each of us buys our own",
+          "value": 1
+        },
+        {
+          "label": "Own, but borrowing is OK",
+          "value": 2
+        },
+        {
+          "label": "Take turns buying",
+          "value": 3
+        },
+        {
+          "label": "Split costs item by item",
+          "value": 4
+        },
+        {
+          "label": "A shared pot we both pay into",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "social_1",
+      "section": "social",
+      "order": 1,
+      "trait": "social",
+      "direction": "self",
+      "type": "forced",
+      "weight": 0.75,
+      "active": true,
+      "optional": false,
+      "text": "Pick the one you'd rather have.",
+      "options": [
+        {
+          "label": "A friendly roommate; we each have our own social lives",
+          "value": 1
+        },
+        {
+          "label": "A roommate who becomes one of my close friends",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "social_2",
+      "section": "social",
+      "order": 2,
+      "trait": "social",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "After a long day, how do you usually recharge?",
+      "options": [
+        {
+          "label": "Alone, somewhere quiet",
+          "value": 1
+        },
+        {
+          "label": "Mostly alone, maybe a short chat",
+          "value": 2
+        },
+        {
+          "label": "Depends on the day",
+          "value": 3
+        },
+        {
+          "label": "With one or two people",
+          "value": 4
+        },
+        {
+          "label": "Out with a group",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "social_3",
+      "section": "social",
+      "order": 3,
+      "trait": "social",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How often would you like to do things together with your roommate (meals, going out, watching something)?",
+      "options": [
+        {
+          "label": "Several times a week",
+          "value": 5
+        },
+        {
+          "label": "About weekly",
+          "value": 4
+        },
+        {
+          "label": "Every couple of weeks",
+          "value": 3
+        },
+        {
+          "label": "Once a month or so",
+          "value": 2
+        },
+        {
+          "label": "Rarely; we mainly share the room",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "temp_1",
+      "section": "temperature",
+      "order": 1,
+      "trait": "temperature",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "In winter, how do you like your room at night?",
+      "options": [
+        {
+          "label": "Cool, window slightly open",
+          "value": 1
+        },
+        {
+          "label": "Cool, window closed",
+          "value": 2
+        },
+        {
+          "label": "Mild",
+          "value": 3
+        },
+        {
+          "label": "Warm",
+          "value": 4
+        },
+        {
+          "label": "Very warm, heating on high",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "temp_2",
+      "section": "temperature",
+      "order": 2,
+      "trait": "temperature",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "How often do you open the window to air out the room, even when it's cold outside?",
+      "options": [
+        {
+          "label": "Several times a day",
+          "value": 1
+        },
+        {
+          "label": "Once a day",
+          "value": 2
+        },
+        {
+          "label": "A few times a week",
+          "value": 3
+        },
+        {
+          "label": "Rarely",
+          "value": 4
+        },
+        {
+          "label": "Almost never",
+          "value": 5
+        }
+      ]
+    },
+    {
+      "id": "temp_3",
+      "section": "temperature",
+      "order": 3,
+      "trait": "temperature",
+      "direction": "self",
+      "type": "single",
+      "weight": 1,
+      "active": true,
+      "optional": false,
+      "text": "Compared with your friends or family, you are usually the one who…",
+      "options": [
+        {
+          "label": "…is reaching for a blanket while others are fine",
+          "value": 5
+        },
+        {
+          "label": "…feels a bit colder than others",
+          "value": 4
+        },
+        {
+          "label": "…feels about the same as everyone",
+          "value": 3
+        },
+        {
+          "label": "…feels a bit warmer than others",
+          "value": 2
+        },
+        {
+          "label": "…is opening windows while others are fine",
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "db_smoke",
+      "section": "dealbreakers",
+      "order": 1,
+      "trait": "dealbreaker",
+      "direction": "attribute",
+      "type": "single",
+      "weight": 0,
+      "active": true,
+      "optional": false,
+      "flag": "smoking",
+      "flagMinValue": 1,
+      "text": "Do you smoke cigarettes (anywhere, not only in the room)?",
+      "options": [
+        {
+          "label": "No",
+          "value": 0
+        },
+        {
+          "label": "Occasionally",
+          "value": 1
+        },
+        {
+          "label": "Regularly",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "db_vape",
+      "section": "dealbreakers",
+      "order": 2,
+      "trait": "dealbreaker",
+      "direction": "attribute",
+      "type": "single",
+      "weight": 0,
+      "active": true,
+      "optional": false,
+      "flag": "vaping",
+      "flagMinValue": 1,
+      "text": "Do you use a vape or e-cigarette?",
+      "options": [
+        {
+          "label": "No",
+          "value": 0
+        },
+        {
+          "label": "Occasionally",
+          "value": 1
+        },
+        {
+          "label": "Regularly",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "db_overnight",
+      "section": "dealbreakers",
+      "order": 3,
+      "trait": "dealbreaker",
+      "direction": "attribute",
+      "type": "single",
+      "weight": 0,
+      "active": true,
+      "optional": false,
+      "flag": "overnight_guests",
+      "flagMinValue": 1,
+      "text": "How often would you have a guest stay overnight in the room?",
+      "options": [
+        {
+          "label": "Never",
+          "value": 0
+        },
+        {
+          "label": "A few times a semester",
+          "value": 1
+        },
+        {
+          "label": "Monthly or more",
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "db_alcohol",
+      "section": "dealbreakers",
+      "order": 4,
+      "trait": "dealbreaker",
+      "direction": "attribute",
+      "type": "single",
+      "weight": 0,
+      "active": true,
+      "optional": true,
+      "flag": "alcohol",
+      "flagMinValue": 1,
+      "text": "Would you keep or drink alcohol in the room?",
+      "options": [
+        {
+          "label": "No",
+          "value": 0
+        },
+        {
+          "label": "Occasionally",
+          "value": 1
+        },
+        {
+          "label": "Prefer not to say",
+          "value": null
+        }
+      ]
+    },
+    {
+      "id": "db_select",
+      "section": "dealbreakers",
+      "order": 5,
+      "trait": "dealbreaker",
+      "direction": "selection",
+      "type": "multi",
+      "weight": 0,
+      "active": true,
+      "optional": false,
+      "text": "Which of these would be an absolute no in your room? Pick only what you would really refuse; each one hides people from your matches.",
+      "options": [
+        {
+          "label": "A roommate who smokes",
+          "value": "smoking"
+        },
+        {
+          "label": "A roommate who vapes",
+          "value": "vaping"
+        },
+        {
+          "label": "Overnight guests",
+          "value": "overnight_guests"
+        },
+        {
+          "label": "Alcohol in the room",
+          "value": "alcohol"
+        },
+        {
+          "label": "None of these",
+          "value": "none",
+          "exclusive": true
+        }
+      ]
+    }
+  ]
+}
