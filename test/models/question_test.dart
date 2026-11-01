@@ -5,21 +5,17 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:roommate_finder/models/question.dart';
 
 void main() {
-  group('question bank (scripts/questions.json)', () {
+  group('question bank (assets/data/questions.json)', () {
     final bank =
-        jsonDecode(File('scripts/questions.json').readAsStringSync())
+        jsonDecode(File('assets/data/questions.json').readAsStringSync())
             as Map<String, dynamic>;
-    final sectionIds = (bank['sections'] as List)
-        .map((s) => s['id'] as String)
-        .toSet();
-    final questions = (bank['questions'] as List)
-        .map((q) => Question.fromMap(Map<String, dynamic>.from(q)))
-        .toList();
+    final questions = questionsFromBank(bank);
 
-    test('every question parses and belongs to a known section', () {
+    test('every question parses and gets its section title and order', () {
       expect(questions, isNotEmpty);
       for (final q in questions) {
-        expect(sectionIds, contains(q.section), reason: q.id);
+        expect(q.sectionTitle, isNotEmpty, reason: q.id);
+        expect(q.sectionOrder, greaterThan(0), reason: q.id);
       }
     });
 
