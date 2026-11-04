@@ -222,6 +222,30 @@ class Question {
   );
 }
 
+/// Reads the question bank file (`assets/data/questions.json`): a `sections`
+/// list and a `questions` list. Each section's title and order are copied onto
+/// its questions, the same way the seed script writes them to Firestore.
+List<Question> questionsFromBank(Map<String, dynamic> bank) {
+  final sections = {
+    for (final s in (bank['sections'] as List).cast<Map>())
+      s['id'] as String: s,
+  };
+  return (bank['questions'] as List).map((raw) {
+    final map = Map<String, dynamic>.from(raw as Map);
+    final section = sections[map['section']];
+    if (section == null) {
+      throw FormatException(
+        'Question ${map['id']} has unknown section ${map['section']}',
+      );
+    }
+    return Question.fromMap({
+      ...map,
+      'sectionTitle': section['title'],
+      'sectionOrder': section['order'],
+    });
+  }).toList();
+}
+
 /// One screen of the questionnaire.
 class QuestionSection {
   final String id;
