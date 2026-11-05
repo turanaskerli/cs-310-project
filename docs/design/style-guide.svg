@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="800" viewBox="0 0 1200 800" font-family="Plus Jakarta Sans, Segoe UI, Arial, sans-serif">
+  <rect width="1200" height="800" fill="#F8FAFC"/>
+
+  <!-- Header -->
+  <text x="40" y="64" font-size="32" font-weight="700" fill="#0F172A">Roommate Finder · Style guide</text>
+  <text x="40" y="96" font-size="15" fill="#64748B">CS 310 · Group 42 · Font: Plus Jakarta Sans · Phone frame: 360 × 800 · Use only these colors, text styles and spacings</text>
+
+  <!-- Colors -->
+  <text x="40" y="150" font-size="20" font-weight="700" fill="#0F172A">Colors (AppColors)</text>
+  <g font-size="13">
+    <rect x="40" y="166" width="130" height="72" rx="12" fill="#7C3AED"/>
+    <text x="40" y="258" font-weight="700" fill="#0F172A">primary</text><text x="40" y="276" fill="#64748B">#7C3AED</text>
+    <rect x="200" y="166" width="130" height="72" rx="12" fill="#5B21B6"/>
+    <text x="200" y="258" font-weight="700" fill="#0F172A">primaryDark</text><text x="200" y="276" fill="#64748B">#5B21B6</text>
+    <rect x="360" y="166" width="130" height="72" rx="12" fill="#EDE9FE" stroke="#E2E8F0"/>
+    <text x="360" y="258" font-weight="700" fill="#0F172A">primaryLight</text><text x="360" y="276" fill="#64748B">#EDE9FE</text>
+    <rect x="520" y="166" width="130" height="72" rx="12" fill="#14B8A6"/>
+    <text x="520" y="258" font-weight="700" fill="#0F172A">accent (match %)</text><text x="520" y="276" fill="#64748B">#14B8A6</text>
+    <rect x="680" y="166" width="130" height="72" rx="12" fill="#16A34A"/>
+    <text x="680" y="258" font-weight="700" fill="#0F172A">success</text><text x="680" y="276" fill="#64748B">#16A34A</text>
+    <rect x="840" y="166" width="130" height="72" rx="12" fill="#F59E0B"/>
+    <text x="840" y="258" font-weight="700" fill="#0F172A">warning</text><text x="840" y="276" fill="#64748B">#F59E0B</text>
+    <rect x="1000" y="166" width="130" height="72" rx="12" fill="#DC2626"/>
+    <text x="1000" y="258" font-weight="700" fill="#0F172A">error</text><text x="1000" y="276" fill="#64748B">#DC2626</text>
+
+    <rect x="40" y="300" width="130" height="72" rx="12" fill="#F8FAFC" stroke="#CBD5E1"/>
+    <text x="40" y="392" font-weight="700" fill="#0F172A">background</text><text x="40" y="410" fill="#64748B">#F8FAFC</text>
+    <rect x="200" y="300" width="130" height="72" rx="12" fill="#FFFFFF" stroke="#CBD5E1"/>
+    <text x="200" y="392" font-weight="700" fill="#0F172A">surface (cards)</text><text x="200" y="410" fill="#64748B">#FFFFFF</text>
+    <rect x="360" y="300" width="130" height="72" rx="12" fill="#0F172A"/>
+    <text x="360" y="392" font-weight="700" fill="#0F172A">textPrimary</text><text x="360" y="410" fill="#64748B">#0F172A</text>
+    <rect x="520" y="300" width="130" height="72" rx="12" fill="#64748B"/>
+    <text x="520" y="392" font-weight="700" fill="#0F172A">textSecondary</text><text x="520" y="410" fill="#64748B">#64748B</text>
+    <rect x="680" y="300" width="130" height="72" rx="12" fill="#E2E8F0"/>
+    <text x="680" y="392" font-weight="700" fill="#0F172A">border</text><text x="680" y="410" fill="#64748B">#E2E8F0</text>
+    <rect x="840" y="300" width="130" height="72" rx="12" fill="#CBD5E1"/>
+    <text x="840" y="392" font-weight="700" fill="#0F172A">disabled</text><text x="840" y="410" fill="#64748B">#CBD5E1</text>
+  </g>
+
+  <!-- Text styles -->
+  <text x="40" y="470" font-size="20" font-weight="700" fill="#0F172A">Text styles (AppTextStyles)</text>
+  <g fill="#0F172A">
+    <text x="40" y="512" font-size="28" font-weight="700">Display 28 Bold</text>
+    <text x="40" y="552" font-size="22" font-weight="700">Title 22 Bold</text>
+    <text x="40" y="588" font-size="18" font-weight="600">Heading 18 SemiBold</text>
+    <text x="40" y="622" font-size="16" font-weight="400">Body 16 Regular: You both sleep before midnight.</text>
+    <text x="40" y="654" font-size="14" font-weight="400" fill="#64748B">Body small 14 Regular: Computer Science · Year 1</text>
+    <text x="40" y="684" font-size="12" font-weight="500" fill="#64748B">Caption 12 Medium: Last active 2h ago</text>
+    <text x="40" y="718" font-size="16" font-weight="600" fill="#7C3AED">Button 16 SemiBold</text>
+  </g>
+
+  <!-- Spacing -->
+  <text x="640" y="470" font-size="20" font-weight="700" fill="#0F172A">Spacing (AppSpacing)</text>
+  <g fill="#7C3AED" font-size="12">
+    <rect x="640" y="508" width="4" height="4"/><text x="640" y="540" fill="#64748B">xs 4</text>
+    <rect x="700" y="504" width="8" height="8"/><text x="700" y="540" fill="#64748B">sm 8</text>
+    <rect x="760" y="500" width="12" height="12"/><text x="760" y="540" fill="#64748B">md 12</text>
+    <rect x="820" y="496" width="16" height="16"/><text x="820" y="540" fill="#64748B">lg 16</text>
+    <rect x="880" y="488" width="24" height="24"/><text x="880" y="540" fill="#64748B">xl 24</text>
+    <rect x="950" y="480" width="32" height="32"/><text x="950" y="540" fill="#64748B">xxl 32</text>
+  </g>
+  <text x="640" y="566" font-size="13" fill="#64748B">Screen side padding 16 · Corner radius 12 · Button and field height 48</text>
+
+  <!-- Components -->
+  <text x="640" y="610" font-size="20" font-weight="700" fill="#0F172A">Components</text>
+  <rect x="640" y="626" width="250" height="48" rx="12" fill="#7C3AED"/>
+  <text x="765" y="656" font-size="16" font-weight="600" fill="#FFFFFF" text-anchor="middle">Sign up</text>
+  <rect x="910" y="626" width="250" height="48" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="1035" y="656" font-size="16" font-weight="600" fill="#7C3AED" text-anchor="middle">Log in</text>
+
+  <text x="640" y="702" font-size="13" font-weight="500" fill="#64748B">University email</text>
+  <rect x="640" y="710" width="250" height="48" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1.5"/>
+  <text x="656" y="739" font-size="15" fill="#94A3B8">name@sabanciuniv.edu</text>
+
+  <text x="910" y="702" font-size="13" font-weight="500" fill="#64748B">University email</text>
+  <rect x="910" y="710" width="250" height="48" rx="12" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="926" y="739" font-size="15" fill="#0F172A">murad@gmail.com</text>
+  <text x="910" y="778" font-size="12" font-weight="500" fill="#DC2626">Use your @sabanciuniv.edu email</text>
+</svg>
