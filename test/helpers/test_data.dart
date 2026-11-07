@@ -22,9 +22,9 @@ List<Question> loadQuestionBank() => questionsFromBank(
       as Map<String, dynamic>,
 );
 
-/// An answer (the first option) for every question in the questionnaire
-/// pages, i.e. every section except dealbreakers.
+/// An answer (the first option) for every question except the dealbreaker
+/// selection, i.e. a fully answered questionnaire with no dealbreakers.
 Map<String, num?> firstOptionAnswers() => {
   for (final q in loadQuestionBank())
-    if (q.section != 'dealbreakers') q.id: q.options.first.numValue,
+    if (!q.isDealbreakerSelection) q.id: q.options.first.numValue,
 };

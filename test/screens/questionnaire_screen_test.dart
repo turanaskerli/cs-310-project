@@ -45,7 +45,7 @@ void main() {
     await pumpScreen(tester);
 
     expect(find.text('Sleep schedule'), findsOneWidget);
-    expect(find.text('Section 1 of 8'), findsOneWidget);
+    expect(find.text('Section 1 of 9'), findsOneWidget);
     expect(find.text('Back'), findsNothing);
     expect(nextButton(tester).onPressed, isNull);
   });
@@ -68,7 +68,7 @@ void main() {
     await tester.tap(find.widgetWithText(FilledButton, 'Next'));
     await tester.pumpAndSettle();
     expect(find.text('Cleanliness'), findsOneWidget);
-    expect(find.text('Section 2 of 8'), findsOneWidget);
+    expect(find.text('Section 2 of 9'), findsOneWidget);
 
     await tester.tap(find.widgetWithText(OutlinedButton, 'Back'));
     await tester.pumpAndSettle();
@@ -90,7 +90,7 @@ void main() {
     await pumpScreen(tester, saved: AnswerSet(answers: firstOptionAnswers()));
 
     for (var page = 1; page <= 8; page++) {
-      expect(find.text('Section $page of 8'), findsOneWidget);
+      expect(find.text('Section $page of 9'), findsOneWidget);
       await tester.tap(find.widgetWithText(FilledButton, 'Next'));
       await tester.pumpAndSettle();
     }

@@ -61,7 +61,7 @@ class QuestionCard extends StatelessWidget {
       for (final option in question.options)
         Padding(
           padding: const EdgeInsets.only(bottom: AppSpacing.sm),
-          child: _OptionTile(
+          child: OptionTile(
             label: option.label,
             selected: _isSelected(option),
             onTap: () => onChanged(option.numValue),
@@ -78,7 +78,7 @@ class QuestionCard extends StatelessWidget {
         for (final (i, option) in question.options.indexed) ...[
           if (i > 0) const SizedBox(width: AppSpacing.sm),
           Expanded(
-            child: _OptionTile(
+            child: OptionTile(
               label: option.label,
               selected: _isSelected(option),
               onTap: () => onChanged(option.numValue),
@@ -99,7 +99,7 @@ class QuestionCard extends StatelessWidget {
           for (final (i, option) in question.options.indexed) ...[
             if (i > 0) const SizedBox(width: AppSpacing.sm),
             Expanded(
-              child: _OptionTile(
+              child: OptionTile(
                 label: '${option.value ?? '–'}',
                 selected: _isSelected(option),
                 onTap: () => onChanged(option.numValue),
@@ -131,18 +131,29 @@ class QuestionCard extends StatelessWidget {
   );
 }
 
-class _OptionTile extends StatelessWidget {
+/// One tappable answer: a radio-style row, a checkbox row for multi-select,
+/// or a centered card for forced-choice and scale answers.
+class OptionTile extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
   final bool centered;
 
-  const _OptionTile({
+  /// Shows a checkbox instead of a radio button.
+  final bool checkbox;
+
+  const OptionTile({
+    super.key,
     required this.label,
     required this.selected,
     required this.onTap,
     this.centered = false,
+    this.checkbox = false,
   });
+
+  IconData get _icon => checkbox
+      ? (selected ? Icons.check_box : Icons.check_box_outline_blank)
+      : (selected ? Icons.radio_button_checked : Icons.radio_button_unchecked);
 
   @override
   Widget build(BuildContext context) {
@@ -178,9 +189,7 @@ class _OptionTile extends StatelessWidget {
                 : Row(
                     children: [
                       Icon(
-                        selected
-                            ? Icons.radio_button_checked
-                            : Icons.radio_button_unchecked,
+                        _icon,
                         size: 20,
                         color: selected
                             ? AppColors.primary

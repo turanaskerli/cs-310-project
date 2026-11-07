@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import '../../models/question.dart';
 import '../../services/app_services.dart';
 import '../../services/questionnaire_service.dart';
-import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
 import '../../widgets/questionnaire/question_card.dart';
+import '../../widgets/questionnaire/section_progress.dart';
 
 /// Questionnaire. Owner: Turan.
 ///
@@ -31,6 +31,9 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       widget.service ?? AppServices.questionnaire;
 
   List<QuestionSection>? _sections;
+
+  /// All sections, including dealbreakers, so the counter reads "of 9".
+  int _totalSections = 0;
   final Map<String, num?> _answers = {};
   int _page = 0;
   Object? _loadError;
@@ -49,6 +52,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       final saved = await _service.getMyAnswers();
       if (!mounted) return;
       setState(() {
+        _totalSections = sections.length;
         _sections = sections
             .where((s) => s.id != _dealbreakersSection)
             .toList();
@@ -132,7 +136,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
               AppSpacing.screenPadding,
               AppSpacing.md,
             ),
-            child: _Progress(page: _page, total: sections.length),
+            child: SectionProgress(number: _page + 1, total: _totalSections),
           ),
           Expanded(
             child: ListView(
@@ -196,33 +200,6 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Progress extends StatelessWidget {
-  final int page;
-  final int total;
-
-  const _Progress({required this.page, required this.total});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text('Section ${page + 1} of $total', style: AppTextStyles.caption),
-        const SizedBox(height: AppSpacing.sm),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(AppSpacing.xs),
-          child: LinearProgressIndicator(
-            value: (page + 1) / total,
-            minHeight: 6,
-            color: AppColors.primary,
-            backgroundColor: AppColors.primaryLight,
-          ),
-        ),
-      ],
     );
   }
 }
