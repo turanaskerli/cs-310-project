@@ -74,7 +74,7 @@ class MatchCard extends StatelessWidget {
               for (final reason in match.reasons.take(3))
                 Padding(
                   padding: const EdgeInsets.only(bottom: AppSpacing.xs),
-                  child: _Reason(text: reason),
+                  child: MatchReason(text: reason),
                 ),
               const SizedBox(height: AppSpacing.sm),
               Row(
@@ -174,10 +174,12 @@ class ScoreBadge extends StatelessWidget {
   }
 }
 
-class _Reason extends StatelessWidget {
+/// One reason line: a teal check for a similarity, an amber info icon for a
+/// heads-up about a difference.
+class MatchReason extends StatelessWidget {
   final String text;
 
-  const _Reason({required this.text});
+  const MatchReason({super.key, required this.text});
 
   /// Heads-up reasons point out a difference instead of a similarity.
   bool get _isHeadsUp => text.startsWith('You differ');
