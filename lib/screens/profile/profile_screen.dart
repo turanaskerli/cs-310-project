@@ -53,88 +53,93 @@ class _ProfileBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    // A short, fixed set of widgets, so a scrolling Column (not a lazy
+    // ListView) keeps the buttons built even when they are off screen.
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSpacing.screenPadding),
-      children: [
-        Center(
-          child: ProfileAvatar(
-            name: user.name,
-            photoUrl: user.photoUrl,
-            localPhotoPath: user.localPhotoPath,
-            size: 112,
-          ),
-        ),
-        const SizedBox(height: AppSpacing.lg),
-        Text(
-          user.name,
-          style: AppTextStyles.title,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          '${user.program} · ${AppUser.yearLabel(user.year)}',
-          style: AppTextStyles.bodySmall,
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        Card(
-          child: Padding(
-            padding: const EdgeInsets.all(AppSpacing.lg),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('About me', style: AppTextStyles.heading),
-                const SizedBox(height: AppSpacing.sm),
-                Text(
-                  user.bio.isEmpty
-                      ? 'Add a short bio so matches know you better.'
-                      : user.bio,
-                  style: user.bio.isEmpty
-                      ? AppTextStyles.bodySmall
-                      : AppTextStyles.body,
-                ),
-              ],
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Center(
+            child: ProfileAvatar(
+              name: user.name,
+              photoUrl: user.photoUrl,
+              localPhotoPath: user.localPhotoPath,
+              size: 112,
             ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        Card(
-          child: ListTile(
-            leading: const Icon(Icons.lock_outline, color: AppColors.primary),
-            title: Text(
-              'Student ID ${user.studentId}',
-              style: AppTextStyles.body,
-            ),
-            subtitle: const Text(
-              'Private: only your confirmed roommate sees it',
-              style: AppTextStyles.caption,
+          const SizedBox(height: AppSpacing.lg),
+          Text(
+            user.name,
+            style: AppTextStyles.title,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.xs),
+          Text(
+            '${user.program} · ${AppUser.yearLabel(user.year)}',
+            style: AppTextStyles.bodySmall,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: AppSpacing.xl),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(AppSpacing.lg),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text('About me', style: AppTextStyles.heading),
+                  const SizedBox(height: AppSpacing.sm),
+                  Text(
+                    user.bio.isEmpty
+                        ? 'Add a short bio so matches know you better.'
+                        : user.bio,
+                    style: user.bio.isEmpty
+                        ? AppTextStyles.bodySmall
+                        : AppTextStyles.body,
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        const SizedBox(height: AppSpacing.xl),
-        FilledButton.icon(
-          onPressed: () => Navigator.pushNamed(
-            context,
-            AppRoutes.basicProfile,
-            arguments: BasicProfileScreen.editArgument,
+          const SizedBox(height: AppSpacing.md),
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.lock_outline, color: AppColors.primary),
+              title: Text(
+                'Student ID ${user.studentId}',
+                style: AppTextStyles.body,
+              ),
+              subtitle: const Text(
+                'Private: only your confirmed roommate sees it',
+                style: AppTextStyles.caption,
+              ),
+            ),
           ),
-          icon: const Icon(Icons.edit_outlined),
-          label: const Text('Edit profile'),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        OutlinedButton.icon(
-          onPressed: () =>
-              Navigator.pushNamed(context, AppRoutes.questionnaire),
-          icon: const Icon(Icons.checklist),
-          label: const Text('Edit answers'),
-        ),
-        const SizedBox(height: AppSpacing.md),
-        OutlinedButton.icon(
-          onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
-          icon: const Icon(Icons.settings_outlined),
-          label: const Text('Settings'),
-        ),
-      ],
+          const SizedBox(height: AppSpacing.xl),
+          FilledButton.icon(
+            onPressed: () => Navigator.pushNamed(
+              context,
+              AppRoutes.basicProfile,
+              arguments: BasicProfileScreen.editArgument,
+            ),
+            icon: const Icon(Icons.edit_outlined),
+            label: const Text('Edit profile'),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          OutlinedButton.icon(
+            onPressed: () =>
+                Navigator.pushNamed(context, AppRoutes.questionnaire),
+            icon: const Icon(Icons.checklist),
+            label: const Text('Edit answers'),
+          ),
+          const SizedBox(height: AppSpacing.md),
+          OutlinedButton.icon(
+            onPressed: () => Navigator.pushNamed(context, AppRoutes.settings),
+            icon: const Icon(Icons.settings_outlined),
+            label: const Text('Settings'),
+          ),
+        ],
+      ),
     );
   }
 }
