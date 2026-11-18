@@ -9,6 +9,7 @@ import '../screens/chat/chat_screen.dart';
 import '../screens/chat/roommate_confirmed_screen.dart';
 import '../screens/home/main_shell.dart';
 import '../screens/matches/match_detail_screen.dart';
+import '../screens/matches/report_block_screen.dart';
 import '../screens/onboarding/basic_profile_screen.dart';
 import '../screens/onboarding/consent_screen.dart';
 import '../screens/questionnaire/dealbreakers_screen.dart';
@@ -47,6 +48,7 @@ class AppRoutes {
   // Main app
   static const String home = '/home'; // bottom tabs (Murad)
   static const String matchDetail = '/match-detail'; // Turan
+  static const String reportBlock = '/report-block'; // Bassam
   static const String chat = '/chat'; // Arda
   static const String roommateConfirmed = '/roommate-confirmed'; // Arda
   static const String settings = '/settings'; // Arda
@@ -65,6 +67,7 @@ class AppRoutes {
     reviewSubmit: (_) => const ReviewSubmitScreen(),
     home: (_) => const MainShell(),
     matchDetail: (_) => const MatchDetailScreen(),
+    reportBlock: (_) => const ReportBlockScreen(),
     chat: (_) => const ChatScreen(),
     roommateConfirmed: (_) => const RoommateConfirmedScreen(),
     settings: (_) => const SettingsScreen(),

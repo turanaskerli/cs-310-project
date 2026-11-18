@@ -2,14 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:roommate_finder/models/recommendation.dart';
 import 'package:roommate_finder/screens/matches/match_detail_screen.dart';
+import 'package:roommate_finder/screens/matches/report_block_screen.dart';
 import 'package:roommate_finder/services/mock/mock_match_service.dart';
+import 'package:roommate_finder/services/mock/mock_report_service.dart';
+import 'package:roommate_finder/utils/app_routes.dart';
 import 'package:roommate_finder/utils/app_theme.dart';
 
 void main() {
   late MockMatchService service;
+  late MockReportService reports;
 
-  setUp(() => service = MockMatchService(delay: Duration.zero));
-  tearDown(() => service.dispose());
+  setUp(() {
+    service = MockMatchService(delay: Duration.zero);
+    reports = MockReportService(delay: Duration.zero);
+  });
+  tearDown(() {
+    service.dispose();
+    reports.dispose();
+  });
 
   /// Opens Match detail the way the Matches screen does: as a route with the
   /// recommendation as its argument.
@@ -24,16 +34,22 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         theme: AppTheme.light,
-        home: Builder(
-          builder: (context) => TextButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                settings: RouteSettings(arguments: argument),
-                builder: (_) => MatchDetailScreen(service: service),
+        routes: {
+          AppRoutes.reportBlock: (_) => ReportBlockScreen(service: reports),
+        },
+        // A Scaffold, like Matches, so the "is blocked" snackbar can show.
+        home: Scaffold(
+          body: Builder(
+            builder: (context) => TextButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  settings: RouteSettings(arguments: argument),
+                  builder: (_) => MatchDetailScreen(service: service),
+                ),
               ),
+              child: const Text('open'),
             ),
-            child: const Text('open'),
           ),
         ),
       ),
@@ -69,6 +85,36 @@ void main() {
     await tester.pump();
 
     expect(find.text('Request sent to Deniz Yılmaz'), findsOneWidget);
+  });
+
+  testWidgets('Report or block: blocking hides the match and goes back', (
+    tester,
+  ) async {
+    final match = await tester.runAsync(firstMatch);
+    await openDetail(tester, match);
+
+    await tester.tap(find.text('Report or block'));
+    await tester.pumpAndSettle();
+    expect(find.text('Why are you reporting Deniz?'), findsOneWidget);
+
+    await tester.scrollUntilVisible(
+      find.text('Block without reporting'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await tester.tap(find.text('Block without reporting'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.widgetWithText(TextButton, 'Block'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Done'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('open'), findsOneWidget);
+    expect(find.text('Deniz Yılmaz is blocked'), findsOneWidget);
+    final visible = await tester.runAsync(
+      () => service.watchRecommendations().first,
+    );
+    expect(visible!.map((r) => r.otherUid), isNot(contains(match!.otherUid)));
   });
 
   testWidgets('without a match it shows a message instead of crashing', (
