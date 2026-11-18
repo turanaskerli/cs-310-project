@@ -90,4 +90,18 @@ class Validators {
       return null;
     };
   }
+
+  static final RegExp _studentIdPattern = RegExp(r'^\d{5,6}$');
+
+  /// Checks for a Sabanci student ID: 5 or 6 digits, e.g. 36035.
+  static String? studentId(String? value) {
+    final id = value?.trim() ?? '';
+    if (id.isEmpty) {
+      return 'Student ID is required';
+    }
+    if (!_studentIdPattern.hasMatch(id)) {
+      return 'Student ID must be 5 or 6 digits';
+    }
+    return null;
+  }
 }
