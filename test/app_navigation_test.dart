@@ -7,6 +7,7 @@ import 'package:roommate_finder/services/app_services.dart';
 import 'package:roommate_finder/services/mock/mock_connection_service.dart';
 import 'package:roommate_finder/services/mock/mock_match_service.dart';
 import 'package:roommate_finder/services/mock/mock_questionnaire_service.dart';
+import 'package:roommate_finder/services/mock/mock_user_service.dart';
 
 import 'helpers/test_data.dart';
 
@@ -21,6 +22,7 @@ void main() {
     );
     AppServices.matches = MockMatchService(delay: Duration.zero);
     AppServices.connections = MockConnectionService(delay: Duration.zero);
+    AppServices.users = MockUserService(delay: Duration.zero);
   });
 
   testWidgets('Welcome -> Log in -> main tabs, and tabs switch', (
@@ -44,13 +46,62 @@ void main() {
   });
 
   testWidgets('Sign-up flow reaches the main tabs', (tester) async {
+    AppServices.users = MockUserService(delay: Duration.zero, startEmpty: true);
     await tester.pumpWidget(const RoommateFinderApp());
+
+    Future<void> tapFilled(String label) async {
+      final button = find.widgetWithText(FilledButton, label);
+      await tester.ensureVisible(button);
+      await tester.tap(button);
+      await tester.pumpAndSettle();
+    }
+
+    Future<void> choose(String key, String option) async {
+      await tester.ensureVisible(find.byKey(ValueKey(key)));
+      await tester.tap(find.byKey(ValueKey(key)));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(option).last);
+      await tester.pumpAndSettle();
+    }
+
+    // Sign up: the form must be valid before the confirmation dialog.
+    await tapFilled('Sign up');
+    await tester.enterText(
+      find.byKey(const ValueKey('signUpEmail')),
+      'new.student@sabanciuniv.edu',
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('signUpPassword')),
+      'secret123',
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('signUpConfirm')),
+      'secret123',
+    );
+    await tester.ensureVisible(find.byKey(const ValueKey('signUpTerms')));
+    await tester.tap(find.byKey(const ValueKey('signUpTerms')));
+    await tester.pump();
+    await tapFilled('Create account');
+    await tapFilled('Confirm');
+
+    await tapFilled("I've verified");
+    await tapFilled('Agree');
+
+    // Basic profile: fill every required field.
+    await tester.enterText(
+      find.byKey(const ValueKey('profileName')),
+      'New Student',
+    );
+    await choose('profileGender', 'Female');
+    await choose('profileProgram', 'Economics');
+    await choose('profileYear', 'Year 1');
+    await tester.enterText(
+      find.byKey(const ValueKey('profileStudentId')),
+      '34567',
+    );
+    await tapFilled('Continue');
+
     const steps = [
-      'Sign up',
-      'Create account',
-      "I've verified",
-      'Agree',
-      'Continue',
       'Start',
       // One Next per questionnaire section (8), then Dealbreakers.
       'Next', 'Next', 'Next', 'Next', 'Next', 'Next', 'Next', 'Next',
