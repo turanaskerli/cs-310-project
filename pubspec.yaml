@@ -21,6 +21,7 @@ flutter:
 
   assets:
     - assets/data/questions.json
+    - assets/images/
 
   fonts:
     - family: PlusJakartaSans
