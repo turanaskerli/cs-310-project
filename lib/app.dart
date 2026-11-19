@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/home/not_found_screen.dart';
 import 'utils/app_routes.dart';
 import 'utils/app_theme.dart';
 
@@ -15,6 +16,11 @@ class RoommateFinderApp extends StatelessWidget {
       theme: AppTheme.light,
       initialRoute: AppRoutes.welcome,
       routes: AppRoutes.routes,
+      // A mistyped route name shows a friendly page instead of crashing.
+      onUnknownRoute: (settings) => MaterialPageRoute(
+        settings: settings,
+        builder: (_) => const NotFoundScreen(),
+      ),
     );
   }
 }
