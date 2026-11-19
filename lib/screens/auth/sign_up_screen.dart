@@ -5,6 +5,8 @@ import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
 import '../../utils/validators.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/app_text_field.dart';
 
 /// Sign up. Owner: Bassam.
 ///
@@ -28,7 +30,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _confirmCtrl = TextEditingController();
 
   bool _acceptedTerms = false;
-  bool _hidePassword = true;
 
   /// Errors are shown only after the first Create account tap, so the user
   /// is not greeted by red text before typing anything. After that, each
@@ -95,56 +96,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: AppTextStyles.bodySmall,
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                TextFormField(
+                AppTextField(
                   key: const ValueKey('signUpEmail'),
+                  label: 'University email',
+                  hint: 'name${Validators.universityDomain}',
                   controller: _emailCtrl,
                   keyboardType: TextInputType.emailAddress,
                   textInputAction: TextInputAction.next,
                   autofillHints: const [AutofillHints.email],
-                  decoration: const InputDecoration(
-                    labelText: 'University email',
-                    hintText: 'name${Validators.universityDomain}',
-                    prefixIcon: Icon(Icons.mail_outline),
-                  ),
                   validator: Validators.email,
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                TextFormField(
+                AppTextField(
                   key: const ValueKey('signUpPassword'),
+                  label: 'Password',
+                  hint: 'At least ${Validators.minPasswordLength} characters',
                   controller: _passwordCtrl,
-                  obscureText: _hidePassword,
+                  isPassword: true,
                   textInputAction: TextInputAction.next,
-                  decoration: InputDecoration(
-                    labelText: 'Password',
-                    helperText:
-                        'At least ${Validators.minPasswordLength} characters',
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      tooltip: _hidePassword
-                          ? 'Show password'
-                          : 'Hide password',
-                      onPressed: () =>
-                          setState(() => _hidePassword = !_hidePassword),
-                      icon: Icon(
-                        _hidePassword
-                            ? Icons.visibility_outlined
-                            : Icons.visibility_off_outlined,
-                      ),
-                    ),
-                  ),
                   validator: Validators.password,
                 ),
                 const SizedBox(height: AppSpacing.lg),
-                TextFormField(
+                AppTextField(
                   key: const ValueKey('signUpConfirm'),
+                  label: 'Confirm password',
                   controller: _confirmCtrl,
-                  obscureText: _hidePassword,
+                  isPassword: true,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (_) => _submit(),
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm password',
-                    prefixIcon: Icon(Icons.lock_outline),
-                  ),
+                  onSubmitted: (_) => _submit(),
                   validator: Validators.confirmPassword(
                     () => _passwordCtrl.text,
                   ),
@@ -155,10 +134,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   onChanged: (v) => setState(() => _acceptedTerms = v),
                 ),
                 const SizedBox(height: AppSpacing.xl),
-                FilledButton(
-                  onPressed: _submit,
-                  child: const Text('Create account'),
-                ),
+                PrimaryButton(label: 'Create account', onPressed: _submit),
                 const SizedBox(height: AppSpacing.sm),
                 Wrap(
                   alignment: WrapAlignment.center,

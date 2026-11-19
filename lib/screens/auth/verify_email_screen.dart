@@ -4,6 +4,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
+import '../../widgets/app_button.dart';
 
 /// Verify email. Owner: Bassam.
 ///
@@ -95,15 +96,15 @@ class VerifyEmailScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FilledButton(
+                  PrimaryButton(
+                    label: "I've verified",
                     onPressed: () =>
                         Navigator.pushNamed(context, AppRoutes.consent),
-                    child: const Text("I've verified"),
                   ),
                   const SizedBox(height: AppSpacing.md),
-                  OutlinedButton(
+                  SecondaryButton(
+                    label: 'Resend email',
                     onPressed: () => _resend(context, email),
-                    child: const Text('Resend email'),
                   ),
                 ],
               ),
