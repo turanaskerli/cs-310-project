@@ -31,6 +31,18 @@ class _MainShellState extends State<MainShell> {
 
   @override
   Widget build(BuildContext context) {
+    // Android Back on another tab returns to Matches first; only Back on
+    // Matches leaves the app.
+    return PopScope(
+      canPop: _currentIndex == 0,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) setState(() => _currentIndex = 0);
+      },
+      child: _buildScaffold(),
+    );
+  }
+
+  Widget _buildScaffold() {
     return Scaffold(
       body: IndexedStack(index: _currentIndex, children: _tabs),
       bottomNavigationBar: NavigationBar(

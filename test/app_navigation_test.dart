@@ -29,12 +29,16 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(const RoommateFinderApp());
-    expect(find.text('Welcome'), findsWidgets);
+    expect(find.text('Roommate Finder'), findsOneWidget);
 
     await tester.tap(find.widgetWithText(OutlinedButton, 'Log in'));
     await tester.pumpAndSettle();
     expect(find.text('Forgot password?'), findsOneWidget);
 
+    // Log in now validates the form, so fill it in first.
+    final fields = find.byType(TextFormField);
+    await tester.enterText(fields.at(0), 'murad@sabanciuniv.edu');
+    await tester.enterText(fields.at(1), 'password123');
     await tester.tap(find.widgetWithText(FilledButton, 'Log in'));
     await tester.pumpAndSettle();
     expect(find.byType(NavigationBar), findsOneWidget);
@@ -112,6 +116,9 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, label));
       await tester.pumpAndSettle();
     }
+    // Review asks before submitting.
+    await tester.tap(find.widgetWithText(TextButton, 'Submit'));
+    await tester.pumpAndSettle();
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 }
