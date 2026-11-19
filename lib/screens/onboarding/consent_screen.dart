@@ -4,6 +4,8 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/app_card.dart';
 
 /// Consent. Owner: Bassam.
 ///
@@ -82,10 +84,10 @@ class ConsentScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  FilledButton(
+                  PrimaryButton(
+                    label: 'Agree',
                     onPressed: () =>
                         Navigator.pushNamed(context, AppRoutes.basicProfile),
-                    child: const Text('Agree'),
                   ),
                   const SizedBox(height: AppSpacing.sm),
                   TextButton(
@@ -119,34 +121,31 @@ class _PrivacyPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.lg),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 40,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: AppColors.primaryLight,
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, size: 20, color: AppColors.primary),
+    return AppCard(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: const BoxDecoration(
+              color: AppColors.primaryLight,
+              shape: BoxShape.circle,
             ),
-            const SizedBox(width: AppSpacing.md),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title, style: AppTextStyles.heading),
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(text, style: AppTextStyles.bodySmall),
-                ],
-              ),
+            child: Icon(icon, size: 20, color: AppColors.primary),
+          ),
+          const SizedBox(width: AppSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: AppTextStyles.heading),
+                const SizedBox(height: AppSpacing.xs),
+                Text(text, style: AppTextStyles.bodySmall),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

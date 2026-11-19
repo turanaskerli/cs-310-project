@@ -8,7 +8,10 @@ import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
 import '../../utils/validators.dart';
+import '../../widgets/app_button.dart';
+import '../../widgets/app_text_field.dart';
 import '../../widgets/profile/profile_avatar.dart';
+import '../../widgets/state_views.dart';
 
 /// Basic profile. Owner: Bassam.
 ///
@@ -53,6 +56,16 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   String? _localPhotoPath;
 
   @override
+  void initState() {
+    super.initState();
+    // Rebuild as the name changes, so the initials in the photo circle
+    // follow what the student types.
+    _nameCtrl.addListener(_onNameChanged);
+  }
+
+  void _onNameChanged() => setState(() {});
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     // The route argument is only readable once the widget is in the tree,
@@ -87,6 +100,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   @override
   void dispose() {
+    _nameCtrl.removeListener(_onNameChanged);
     _nameCtrl.dispose();
     _bioCtrl.dispose();
     _studentIdCtrl.dispose();
@@ -153,24 +167,17 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       ),
       body: SafeArea(
         child: _loading
-            ? const Center(child: CircularProgressIndicator())
+            ? const LoadingView()
             : Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(child: _buildForm()),
                   Padding(
                     padding: const EdgeInsets.all(AppSpacing.screenPadding),
-                    child: FilledButton(
-                      onPressed: _saving ? null : _save,
-                      child: _saving
-                          ? const SizedBox.square(
-                              dimension: 20,
-                              child: CircularProgressIndicator(
-                                strokeWidth: 2,
-                                color: AppColors.surface,
-                              ),
-                            )
-                          : Text(_isEditing ? 'Save' : 'Continue'),
+                    child: PrimaryButton(
+                      label: _isEditing ? 'Save' : 'Continue',
+                      isLoading: _saving,
+                      onPressed: _save,
                     ),
                   ),
                 ],
@@ -204,95 +211,133 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
               onPick: _pickPhoto,
             ),
             const SizedBox(height: AppSpacing.xl),
-            TextFormField(
+            AppTextField(
               key: const ValueKey('profileName'),
+              label: 'Full name',
               controller: _nameCtrl,
-              textCapitalization: TextCapitalization.words,
               textInputAction: TextInputAction.next,
-              decoration: const InputDecoration(labelText: 'Full name'),
               validator: Validators.required('Name'),
-              // Rebuild so the initials in the photo circle follow the name.
-              onChanged: (_) => setState(() {}),
             ),
             const SizedBox(height: AppSpacing.lg),
-            DropdownButtonFormField<String>(
-              key: const ValueKey('profileGender'),
-              initialValue: _gender,
-              isExpanded: true,
-              decoration: const InputDecoration(labelText: 'Gender'),
-              items: [
-                for (final g in AppUser.genders)
-                  DropdownMenuItem(
-                    value: g,
-                    child: Text(g, overflow: TextOverflow.ellipsis),
-                  ),
-              ],
+            _LabeledDropdown<String>(
+              fieldKey: const ValueKey('profileGender'),
+              label: 'Gender',
+              value: _gender,
+              options: {for (final g in AppUser.genders) g: g},
               onChanged: (v) => setState(() => _gender = v),
-              validator: (v) => v == null ? 'Please choose your gender' : null,
+              emptyError: 'Please choose your gender',
             ),
             const SizedBox(height: AppSpacing.lg),
-            DropdownButtonFormField<String>(
-              key: const ValueKey('profileProgram'),
-              initialValue: _program,
-              isExpanded: true,
-              decoration: const InputDecoration(labelText: 'Program'),
-              items: [
-                for (final p in AppUser.programs)
-                  DropdownMenuItem(
-                    value: p,
-                    child: Text(p, overflow: TextOverflow.ellipsis),
-                  ),
-              ],
+            _LabeledDropdown<String>(
+              fieldKey: const ValueKey('profileProgram'),
+              label: 'Program',
+              value: _program,
+              options: {for (final p in AppUser.programs) p: p},
               onChanged: (v) => setState(() => _program = v),
-              validator: (v) => v == null ? 'Please choose your program' : null,
+              emptyError: 'Please choose your program',
             ),
             const SizedBox(height: AppSpacing.lg),
-            DropdownButtonFormField<int>(
-              key: const ValueKey('profileYear'),
-              initialValue: _year,
-              isExpanded: true,
-              decoration: const InputDecoration(labelText: 'Year'),
-              items: [
-                for (final y in AppUser.years)
-                  DropdownMenuItem(value: y, child: Text(AppUser.yearLabel(y))),
-              ],
+            _LabeledDropdown<int>(
+              fieldKey: const ValueKey('profileYear'),
+              label: 'Year',
+              value: _year,
+              options: {for (final y in AppUser.years) y: AppUser.yearLabel(y)},
               onChanged: (v) => setState(() => _year = v),
-              validator: (v) => v == null ? 'Please choose your year' : null,
+              emptyError: 'Please choose your year',
             ),
             const SizedBox(height: AppSpacing.lg),
-            TextFormField(
+            AppTextField(
               key: const ValueKey('profileBio'),
+              label: 'Bio (optional)',
+              hint: 'Your habits, hobbies, what you look for',
               controller: _bioCtrl,
-              minLines: 3,
-              maxLines: 5,
+              maxLines: 4,
               maxLength: BasicProfileScreen.maxBioLength,
-              textCapitalization: TextCapitalization.sentences,
-              decoration: const InputDecoration(
-                labelText: 'Bio (optional)',
-                hintText: 'Your habits, hobbies, what you look for',
-                alignLabelWithHint: true,
-              ),
               validator: Validators.maxLength(
                 BasicProfileScreen.maxBioLength,
                 fieldName: 'Bio',
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
-            TextFormField(
+            AppTextField(
               key: const ValueKey('profileStudentId'),
+              label: 'Student ID',
+              hint: 'e.g. 36035',
               controller: _studentIdCtrl,
               keyboardType: TextInputType.number,
-              decoration: const InputDecoration(
-                labelText: 'Student ID',
-                prefixIcon: Icon(Icons.lock_outline),
-                helperText: 'Private: only your confirmed roommate sees it',
-              ),
               validator: Validators.studentId,
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            const Row(
+              children: [
+                Icon(
+                  Icons.lock_outline,
+                  size: 14,
+                  color: AppColors.textSecondary,
+                ),
+                SizedBox(width: AppSpacing.xs),
+                Expanded(
+                  child: Text(
+                    'Private: only your confirmed roommate sees it',
+                    style: AppTextStyles.caption,
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: AppSpacing.lg),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// A dropdown with its label above it, matching the shared [AppTextField],
+/// and an inline error when nothing is chosen.
+class _LabeledDropdown<T> extends StatelessWidget {
+  final Key fieldKey;
+  final String label;
+  final T? value;
+  final Map<T, String> options;
+  final ValueChanged<T?> onChanged;
+  final String emptyError;
+
+  const _LabeledDropdown({
+    required this.fieldKey,
+    required this.label,
+    required this.value,
+    required this.options,
+    required this.onChanged,
+    required this.emptyError,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(label, style: AppTextStyles.caption),
+        const SizedBox(height: AppSpacing.xs + 2),
+        DropdownButtonFormField<T>(
+          key: fieldKey,
+          initialValue: value,
+          isExpanded: true,
+          hint: Text(
+            'Choose',
+            style: AppTextStyles.body.copyWith(color: AppColors.disabled),
+          ),
+          style: AppTextStyles.body,
+          items: [
+            for (final entry in options.entries)
+              DropdownMenuItem(
+                value: entry.key,
+                child: Text(entry.value, overflow: TextOverflow.ellipsis),
+              ),
+          ],
+          onChanged: onChanged,
+          validator: (v) => v == null ? emptyError : null,
+        ),
+      ],
     );
   }
 }
