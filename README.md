@@ -117,19 +117,49 @@ lib/
 
 ## 🚀 Getting started
 
-**Requirements:** Flutter SDK, Android Studio with an Android emulator (or an Android phone with USB debugging), and access to the team's Firebase project.
+### Requirements
+
+| Tool | Version |
+|---|---|
+| Flutter | **3.47.x** (stable channel; developed and tested with 3.47.9) |
+| Dart | 3.8 or newer (bundled with Flutter) |
+| Android Studio | with the **Flutter** and **Dart** plugins, plus an Android emulator or an Android phone with USB debugging |
+
+Check your setup with `flutter --version` and `flutter doctor`. In Step 2 the app runs entirely on mock data, so no Firebase access is needed yet.
+
+### Run the app
 
 ```bash
-# Clone the repository
+# 1. Clone the repository
 git clone https://github.com/turanaskerli/cs-310-project.git
 cd cs-310-project
 
-# Install dependencies
+# 2. Install dependencies
 flutter pub get
 
-# Run on a connected device or emulator
+# 3. Start an emulator (or plug in a phone), then run
+flutter devices
 flutter run
 ```
+
+In Android Studio: **File → Open** the `cs-310-project` folder (the one that contains `pubspec.yaml`), run **Pub get**, choose a device in the toolbar and press ▶ on `lib/main.dart`.
+
+### Run the tests
+
+```bash
+flutter analyze
+flutter test
+```
+
+### Try the screens
+
+- **Sign up flow:** Welcome → Sign up (use an `@sabanciuniv.edu` email, a password of 8+ characters and tick the terms) → Verify email → Consent → Basic profile → Honesty intro → Questionnaire → Dealbreakers → Review and submit → main tabs.
+- **Log in flow:** Welcome → Log in → main tabs (Matches, Requests, Chats, Profile). Log in is UI only in Step 2.
+
+### Troubleshooting
+
+- **"Dart SDK is not configured" / "Dart support is not enabled":** set the Flutter SDK path in **Settings → Languages & Frameworks → Flutter**, and make sure you opened the folder that contains `pubspec.yaml`, not a parent folder.
+- **Android license errors:** run `flutter doctor --android-licenses` and accept them.
 
 ## 👥 Team
 
@@ -142,7 +172,7 @@ flutter run
 
 ## 📌 Project status
 
-🚧 **Step 1: Proposal and repository setup.** Development starts in the next project step.
+🚧 **Step 2: User interface.** All screens are built with Flutter and run on mock services (fake data in Dart). In Step 3 each mock is swapped for its Firebase version in `lib/services/app_services.dart`.
 
 ---
 

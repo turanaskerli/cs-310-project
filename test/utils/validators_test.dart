@@ -75,6 +75,23 @@ void main() {
     });
   });
 
+  group('Validators.studentId', () {
+    test('rejects empty, letters and the wrong length', () {
+      expect(Validators.studentId(''), 'Student ID is required');
+      expect(Validators.studentId('36a35'), 'Student ID must be 5 or 6 digits');
+      expect(Validators.studentId('3603'), 'Student ID must be 5 or 6 digits');
+      expect(
+        Validators.studentId('3603512'),
+        'Student ID must be 5 or 6 digits',
+      );
+    });
+
+    test('accepts 5 or 6 digits, ignoring spaces', () {
+      expect(Validators.studentId('36035'), isNull);
+      expect(Validators.studentId(' 360351 '), isNull);
+    });
+  });
+
   group('Validators.maxLength', () {
     final validate = Validators.maxLength(300, fieldName: 'Bio');
 
