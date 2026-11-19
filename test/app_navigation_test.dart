@@ -61,6 +61,9 @@ void main() {
       await tester.tap(find.widgetWithText(FilledButton, label));
       await tester.pumpAndSettle();
     }
+    // Review asks before submitting.
+    await tester.tap(find.widgetWithText(TextButton, 'Submit'));
+    await tester.pumpAndSettle();
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 }
