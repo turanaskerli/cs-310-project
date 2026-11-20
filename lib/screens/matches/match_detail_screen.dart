@@ -4,9 +4,11 @@ import '../../models/recommendation.dart';
 import '../../services/app_services.dart';
 import '../../services/match_service.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_routes.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text_styles.dart';
 import '../../widgets/matches/match_card.dart';
+import 'report_block_screen.dart';
 
 /// Match detail. Owner: Turan.
 ///
@@ -46,6 +48,27 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
     ScaffoldMessenger.of(context)
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text(text)));
+  }
+
+  /// Opens Report or block. If the user blocked this student, hides them
+  /// from Matches and goes back there.
+  Future<void> _openReport() async {
+    final match = _match!;
+    final result = await Navigator.pushNamed<Object?>(
+      context,
+      AppRoutes.reportBlock,
+      arguments: match,
+    );
+    if (result is! ReportBlockResult || !result.isBlocked || !mounted) return;
+    await _service.dismiss(match.otherUid);
+    if (!mounted) return;
+    final messenger = ScaffoldMessenger.of(context);
+    Navigator.pop(context);
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(content: Text('${match.otherSummary.name} is blocked')),
+      );
   }
 
   @override
@@ -125,9 +148,7 @@ class _MatchDetailScreenState extends State<MatchDetailScreen> {
                     style: TextButton.styleFrom(
                       foregroundColor: AppColors.error,
                     ),
-                    onPressed: () => _showMessage(
-                      'Reporting and blocking will be available soon',
-                    ),
+                    onPressed: _openReport,
                     child: const Text('Report or block'),
                   ),
                 ],
