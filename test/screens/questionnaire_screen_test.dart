@@ -9,6 +9,8 @@ import 'package:roommate_finder/utils/app_theme.dart';
 import '../helpers/test_data.dart';
 
 void main() {
+  late MockQuestionnaireService service;
+
   Future<void> pumpScreen(
     WidgetTester tester, {
     AnswerSet? saved,
@@ -18,7 +20,7 @@ void main() {
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.reset);
 
-    final service = MockQuestionnaireService(
+    service = MockQuestionnaireService(
       bundle: FileAssetBundle(),
       delay: Duration.zero,
       initialAnswers: saved,
@@ -35,6 +37,11 @@ void main() {
     );
     await tester.pumpAndSettle();
   }
+
+  /// What the service has stored. The mock waits on a timer, so this runs
+  /// outside the test's fake clock.
+  Future<AnswerSet?> savedAnswers(WidgetTester tester) =>
+      tester.runAsync<AnswerSet?>(service.getMyAnswers);
 
   FilledButton nextButton(WidgetTester tester) =>
       tester.widget(find.widgetWithText(FilledButton, 'Next'));
@@ -96,6 +103,78 @@ void main() {
     }
 
     expect(find.text('Dealbreakers page'), findsOneWidget);
+  });
+
+  Future<void> answerSleepPage(WidgetTester tester) async {
+    for (final label in [
+      'Before 23:00',
+      'Before 08:00',
+      'Asleep for a while already',
+    ]) {
+      await tester.ensureVisible(find.text(label));
+      await tester.pumpAndSettle();
+      await tester.tap(find.text(label));
+      await tester.pump();
+    }
+  }
+
+  testWidgets('Next saves the page as a draft', (tester) async {
+    await pumpScreen(tester);
+    await answerSleepPage(tester);
+
+    await tester.tap(find.widgetWithText(FilledButton, 'Next'));
+    await tester.pumpAndSettle();
+
+    final saved = await savedAnswers(tester);
+    expect(saved!.isDraft, isTrue);
+    expect(saved.answers.keys, containsAll(['sleep_1', 'sleep_2', 'sleep_3']));
+    expect(find.text('Draft saved'), findsNothing);
+  });
+
+  testWidgets('answers are saved when the app goes to the background', (
+    tester,
+  ) async {
+    await pumpScreen(tester);
+    await tester.tap(find.text('Before 23:00'));
+    await tester.pump();
+
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.inactive);
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.hidden);
+    await tester.pumpAndSettle();
+    tester.binding.handleAppLifecycleStateChanged(AppLifecycleState.resumed);
+
+    expect((await savedAnswers(tester))!.answers, {'sleep_1': 1});
+  });
+
+  testWidgets('answers are saved when the screen closes', (tester) async {
+    await pumpScreen(tester);
+    await tester.tap(find.text('Before 23:00'));
+    await tester.pump();
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+
+    expect((await savedAnswers(tester))!.answers, {'sleep_1': 1});
+  });
+
+  testWidgets('a draft reopens on the first unfinished page', (tester) async {
+    final answers = firstOptionAnswers()
+      ..removeWhere((id, _) => id.startsWith('noise_'));
+    await pumpScreen(tester, saved: AnswerSet(answers: answers));
+
+    expect(find.text('Section 3 of 9'), findsOneWidget);
+    expect(find.text('Noise'), findsOneWidget);
+  });
+
+  testWidgets('submitted answers reopen on the first page', (tester) async {
+    final answers = firstOptionAnswers()
+      ..removeWhere((id, _) => id.startsWith('noise_'));
+    await pumpScreen(
+      tester,
+      saved: AnswerSet(answers: answers, isDraft: false),
+    );
+
+    expect(find.text('Section 1 of 9'), findsOneWidget);
   });
 
   testWidgets('no overflow on a large phone', (tester) async {

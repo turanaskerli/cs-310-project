@@ -14,6 +14,10 @@ import '../../widgets/questionnaire/section_progress.dart';
 /// Screen 8: one section per page with a progress bar, Back/Next and Save
 /// draft. Previously saved answers are filled in, so it also works as Edit
 /// answers. The dealbreakers section has its own screen, which comes next.
+///
+/// Changes are also saved as a draft without asking: on Next, when the app
+/// goes to the background and when the screen closes. A draft reopens on the
+/// first page that is not finished yet.
 class QuestionnaireScreen extends StatefulWidget {
   /// Defaults to [AppServices.questionnaire].
   final QuestionnaireService? service;
@@ -24,7 +28,8 @@ class QuestionnaireScreen extends StatefulWidget {
   State<QuestionnaireScreen> createState() => _QuestionnaireScreenState();
 }
 
-class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
+class _QuestionnaireScreenState extends State<QuestionnaireScreen>
+    with WidgetsBindingObserver {
   static const _dealbreakersSection = 'dealbreakers';
 
   late final QuestionnaireService _service =
@@ -39,10 +44,29 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Object? _loadError;
   bool _saving = false;
 
+  /// True when some answers are not saved yet.
+  bool _unsaved = false;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _load();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      _autosave();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _autosave();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -57,6 +81,13 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
             .where((s) => s.id != _dealbreakersSection)
             .toList();
         if (saved != null) _answers.addAll(saved.answers);
+        if (saved != null && saved.isDraft) {
+          // Continue where the student stopped.
+          final firstUnfinished = _sections!.indexWhere(
+            (s) => !_isPageComplete(s),
+          );
+          if (firstUnfinished > 0) _page = firstUnfinished;
+        }
       });
     } catch (e) {
       if (mounted) setState(() => _loadError = e);
@@ -67,12 +98,29 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
       .where((q) => !q.optional)
       .every((q) => _answers.containsKey(q.id));
 
+  void _setAnswer(String questionId, num? value) => setState(() {
+    _answers[questionId] = value;
+    _unsaved = true;
+  });
+
+  /// Saves unsaved answers in the background, without a message. If it
+  /// fails, the answers stay unsaved and the next save tries again.
+  void _autosave() {
+    if (!_unsaved || _sections == null) return;
+    _unsaved = false;
+    _service.saveDraft(Map.of(_answers)).catchError((Object _) {
+      _unsaved = true;
+    });
+  }
+
   Future<void> _saveDraft({bool showMessage = true}) async {
     setState(() => _saving = true);
     try {
+      _unsaved = false;
       await _service.saveDraft(Map.of(_answers));
       if (mounted && showMessage) _showMessage('Draft saved');
     } catch (_) {
+      _unsaved = true;
       if (mounted) _showMessage('Could not save your answers. Try again.');
       rethrow;
     } finally {
@@ -83,6 +131,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
   Future<void> _next() async {
     final sections = _sections!;
     if (_page < sections.length - 1) {
+      _autosave();
       setState(() => _page++);
       return;
     }
@@ -154,7 +203,7 @@ class _QuestionnaireScreenState extends State<QuestionnaireScreen> {
                     question: q,
                     answered: _answers.containsKey(q.id),
                     value: _answers[q.id],
-                    onChanged: (v) => setState(() => _answers[q.id] = v),
+                    onChanged: (v) => _setAnswer(q.id, v),
                   ),
                   const SizedBox(height: AppSpacing.md),
                 ],
