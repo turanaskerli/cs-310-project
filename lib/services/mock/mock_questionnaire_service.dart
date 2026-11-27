@@ -1,16 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/services.dart';
 
 import '../../models/answer_set.dart';
 import '../../models/question.dart';
+import '../question_bank.dart';
 import '../questionnaire_service.dart';
 
 /// Serves the real question bank from `assets/data/questions.json` and keeps
 /// answers in memory, so the questionnaire screens work without Firebase.
 class MockQuestionnaireService implements QuestionnaireService {
-  static const questionBankAsset = 'assets/data/questions.json';
-
   final AssetBundle _bundle;
 
   /// Simulated network delay, so screens show their loading state.
@@ -28,18 +25,13 @@ class MockQuestionnaireService implements QuestionnaireService {
 
   @override
   Future<List<QuestionSection>> getQuestions() async {
-    await Future<void>.delayed(delay);
-    return _sections ??= QuestionSection.group(
-      questionsFromBank(
-        jsonDecode(await _bundle.loadString(questionBankAsset))
-            as Map<String, dynamic>,
-      ),
-    );
+    await _wait();
+    return _sections ??= await QuestionBank.load(_bundle);
   }
 
   @override
   Future<AnswerSet?> getMyAnswers() async {
-    await Future<void>.delayed(delay);
+    await _wait();
     return _answers;
   }
 
@@ -48,7 +40,7 @@ class MockQuestionnaireService implements QuestionnaireService {
     Map<String, num?> answers, {
     List<String>? dealbreakers,
   }) async {
-    await Future<void>.delayed(delay);
+    await _wait();
     final previous = _answers ?? const AnswerSet();
     _answers = AnswerSet(
       answers: {...previous.answers, ...answers},
@@ -63,13 +55,19 @@ class MockQuestionnaireService implements QuestionnaireService {
     Map<String, num?> answers,
     List<String> dealbreakers,
   ) async {
-    await Future<void>.delayed(delay);
+    await _wait();
     _answers = AnswerSet(
       answers: Map.of(answers),
       dealbreakers: _withoutNone(dealbreakers),
       isDraft: false,
       updatedAt: DateTime.now(),
     );
+  }
+
+  /// Waits for [delay]. A zero delay starts no timer, so a draft saved as a
+  /// screen closes does not leave a timer running at the end of a test.
+  Future<void> _wait() async {
+    if (delay > Duration.zero) await Future<void>.delayed(delay);
   }
 
   static List<String> _withoutNone(List<String> dealbreakers) =>
