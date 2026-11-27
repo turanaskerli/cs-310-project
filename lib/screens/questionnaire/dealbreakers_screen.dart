@@ -14,6 +14,9 @@ import '../../widgets/questionnaire/section_progress.dart';
 /// Screen 9, the last questionnaire section: whether the student smokes,
 /// vapes or has overnight guests, then which of these they would refuse in a
 /// roommate. "None of these" clears the other choices.
+///
+/// Changes are also saved as a draft without asking, when the app goes to the
+/// background and when the screen closes.
 class DealbreakersScreen extends StatefulWidget {
   /// Defaults to [AppServices.questionnaire].
   final QuestionnaireService? service;
@@ -24,7 +27,8 @@ class DealbreakersScreen extends StatefulWidget {
   State<DealbreakersScreen> createState() => _DealbreakersScreenState();
 }
 
-class _DealbreakersScreenState extends State<DealbreakersScreen> {
+class _DealbreakersScreenState extends State<DealbreakersScreen>
+    with WidgetsBindingObserver {
   static const _sectionId = 'dealbreakers';
 
   late final QuestionnaireService _service =
@@ -41,10 +45,29 @@ class _DealbreakersScreenState extends State<DealbreakersScreen> {
   Object? _loadError;
   bool _saving = false;
 
+  /// True when some answers are not saved yet.
+  bool _unsaved = false;
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _load();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.paused ||
+        state == AppLifecycleState.hidden) {
+      _autosave();
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    _autosave();
+    super.dispose();
   }
 
   Future<void> _load() async {
@@ -88,8 +111,14 @@ class _DealbreakersScreenState extends State<DealbreakersScreen> {
           .every((q) => _answers.containsKey(q.id)) &&
       (_dealbreakers.isNotEmpty || _noneChosen);
 
+  void _setAnswer(String questionId, num? value) => setState(() {
+    _answers[questionId] = value;
+    _unsaved = true;
+  });
+
   void _toggle(QuestionOption option) {
     setState(() {
+      _unsaved = true;
       if (option.exclusive) {
         _noneChosen = !_noneChosen;
         if (_noneChosen) _dealbreakers.clear();
@@ -101,16 +130,31 @@ class _DealbreakersScreenState extends State<DealbreakersScreen> {
     });
   }
 
+  /// Saves this page's answers and the dealbreaker choices as a draft.
+  Future<void> _saveDraftNow() => _service.saveDraft({
+    for (final q in _attributeQuestions)
+      if (_answers.containsKey(q.id)) q.id: _answers[q.id],
+  }, dealbreakers: _dealbreakers.toList());
+
+  /// Saves unsaved answers in the background, without a message. If it
+  /// fails, the answers stay unsaved and the next save tries again.
+  void _autosave() {
+    if (!_unsaved || _section == null) return;
+    _unsaved = false;
+    _saveDraftNow().catchError((Object _) {
+      _unsaved = true;
+    });
+  }
+
   Future<bool> _save({bool showMessage = true}) async {
     setState(() => _saving = true);
     try {
-      await _service.saveDraft({
-        for (final q in _attributeQuestions)
-          if (_answers.containsKey(q.id)) q.id: _answers[q.id],
-      }, dealbreakers: _dealbreakers.toList());
+      _unsaved = false;
+      await _saveDraftNow();
       if (mounted && showMessage) _showMessage('Draft saved');
       return true;
     } catch (_) {
+      _unsaved = true;
       if (mounted) _showMessage('Could not save your answers. Try again.');
       return false;
     } finally {
@@ -201,7 +245,7 @@ class _DealbreakersScreenState extends State<DealbreakersScreen> {
                     question: q,
                     answered: _answers.containsKey(q.id),
                     value: _answers[q.id],
-                    onChanged: (v) => setState(() => _answers[q.id] = v),
+                    onChanged: (v) => _setAnswer(q.id, v),
                   ),
                   const SizedBox(height: AppSpacing.md),
                 ],

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:roommate_finder/models/answer_set.dart';
 import 'package:roommate_finder/screens/questionnaire/dealbreakers_screen.dart';
 import 'package:roommate_finder/services/mock/mock_questionnaire_service.dart';
 import 'package:roommate_finder/utils/app_routes.dart';
@@ -66,6 +67,11 @@ void main() {
         ),
       );
 
+  /// What the service has stored. The mock waits on a timer, so this runs
+  /// outside the test's fake clock.
+  Future<AnswerSet?> savedAnswers(WidgetTester tester) =>
+      tester.runAsync<AnswerSet?>(service.getMyAnswers);
+
   FilledButton nextButton(WidgetTester tester) =>
       tester.widget(find.widgetWithText(FilledButton, 'Next'));
 
@@ -119,6 +125,45 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Review page'), findsOneWidget);
+  });
+
+  testWidgets('choices are saved when the screen closes', (tester) async {
+    await pumpScreen(tester);
+    await answer(tester, 'Do you smoke', 'No');
+    await tapText(tester, 'A roommate who vapes');
+
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+
+    final saved = await savedAnswers(tester);
+    expect(saved!.isDraft, isTrue);
+    expect(saved.answers.keys, ['db_smoke']);
+    expect(saved.dealbreakers, ['vaping']);
+  });
+
+  testWidgets('saved choices are filled in again', (tester) async {
+    await tester.runAsync(
+      () => service.saveDraft({'db_smoke': 0}, dealbreakers: ['smoking']),
+    );
+    await pumpScreen(tester);
+
+    await tester.scrollUntilVisible(
+      find.text('A roommate who smokes'),
+      120,
+      scrollable: find.byType(Scrollable).first,
+    );
+    final smokes = tester.widget<Icon>(
+      find
+          .descendant(
+            of: find.ancestor(
+              of: find.text('A roommate who smokes'),
+              matching: find.byType(Row),
+            ),
+            matching: find.byType(Icon),
+          )
+          .first,
+    );
+    expect(smokes.icon, isNot(Icons.check_box_outline_blank));
   });
 
   testWidgets('no overflow on a large phone', (tester) async {
